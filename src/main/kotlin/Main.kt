@@ -7,19 +7,19 @@ fun main(args: Array<String>) {
     runMenu()
 }
 fun mainMenu() : Int {
-    println("")
-    println("--------------------")
-    println("NOTE KEEPER APP")
-    println("--------------------")
-    println("NOTE MENU")
-    println("  1) Add a note")
-    println("  2) List all notes")
-    println("  3) Update a note")
-    println("  4) Delete a note")
-    println("--------------------")
-    println("  0) Exit")
-    println("--------------------")
-    print("==>> ")
+    print("""
+          > ----------------------------------
+          > |        NOTE KEEPER APP         |
+          > ----------------------------------
+          > | NOTE MENU                      |
+          > |   1) Add a note                |
+          > |   2) List all notes            |
+          > |   3) Update a note             |
+          > |   4) Delete a note             |
+          > ----------------------------------
+          > |   0) Exit                      |
+          > ----------------------------------
+          > ==>> """.trimMargin(">"))
     return scanner.nextInt()
 }
 
@@ -32,7 +32,7 @@ fun runMenu() {
             3 -> updateNote()
             4 -> deleteNote()
             0 -> exitApp()
-            else -> println("Invalis option entered" + option)
+            else -> println("Invalid option entered: ${option}")
         }
     }while (true)
 }
