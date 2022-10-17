@@ -39,7 +39,7 @@ class NoteAPI {
 
     fun listActiveNotes(): String {
         return if (numberOfActiveNotes() == 0) {
-            "No active notes stored"
+            "No Active Notes!"
         } else {
             var listOfActiveNotes = ""
             for (note in notes) {
@@ -53,7 +53,7 @@ class NoteAPI {
 
     fun listArchivedNotes(): String {
         return if (numberOfArchivedNotes() == 0) {
-            "No archived notes stored"
+            "No Archived Notes!"
         } else {
             var listOfArchivedNotes = ""
             for (note in notes) {
