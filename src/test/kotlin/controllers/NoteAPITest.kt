@@ -1,11 +1,8 @@
 package controllers
 
 import models.Note
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 
@@ -85,6 +82,45 @@ class NoteAPITest {
             assertTrue(notesString.contains("swim"))
             assertTrue(notesString.contains("summer holiday"))
         }
+
+        @Test
+        fun `listActiveNotes returns No Active Notes! message when ArrayList is empty`() {
+            assertEquals(0, emptyNotes!!.numberOfActiveNotes())
+            assertTrue(
+                emptyNotes!!.listActiveNotes().lowercase().contains("no active notes")
+            )
+        }
+
+        @Test
+        fun `listActiveNotes returns the active notes when ArrayList has active notes stored`() {
+            assertEquals(3, populatedNotes!!.numberOfActiveNotes())
+            val activeNotesString = populatedNotes!!.listActiveNotes().lowercase()
+            assertTrue(activeNotesString.contains("learning kotlin"))
+            Assertions.assertFalse(activeNotesString.contains("code app"))
+            assertTrue(activeNotesString.contains("summer holiday"))
+            assertTrue(activeNotesString.contains("test app"))
+            Assertions.assertFalse(activeNotesString.contains("swim"))
+        }
+
+        @Test
+        fun `listArchivedNotes returns No Archived Notes! message when ArrayList is empty`() {
+            assertEquals(0, emptyNotes!!.numberOfArchivedNotes())
+            assertTrue(
+                emptyNotes!!.listArchivedNotes().lowercase().contains("no archived notes")
+            )
+        }
+
+        @Test
+        fun `listArchivedNotes returns the archived notes when ArrayList has archived notes stored`() {
+            assertEquals(2, populatedNotes!!.numberOfArchivedNotes())
+            val archivedNotesString = populatedNotes!!.listArchivedNotes().lowercase()
+            Assertions.assertFalse(archivedNotesString.contains("learning kotlin"))
+            assertTrue(archivedNotesString.contains("code app"))
+            Assertions.assertFalse(archivedNotesString.contains("summer holiday"))
+            Assertions.assertFalse(archivedNotesString.contains("test app"))
+            assertTrue(archivedNotesString.contains("swim"))
+        }
+
     }
 
 }
