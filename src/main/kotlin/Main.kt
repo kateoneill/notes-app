@@ -89,9 +89,38 @@ fun updateNote() {
 }
 
 fun listNotes(){
+    if (noteAPI.numberOfNotes() > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                  > |   1) View ALL notes          |
+                  > |   2) View ACTIVE notes       |
+                  > |   3) View ARCHIVED notes     |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllNotes();
+            2 -> listActiveNotes();
+            3 -> listArchivedNotes();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - There are no notes");
+    }
+}
+
+fun listAllNotes() {
     println(noteAPI.listAllNotes())
 }
 
+fun listActiveNotes() {
+    println(noteAPI.listActiveNotes())
+}
+
+fun listArchivedNotes() {
+    println(noteAPI.listArchivedNotes())
+}
 fun deleteNote(){
 //    logger.info { "deleteNote() function invoked" }
     listNotes()
@@ -130,7 +159,7 @@ fun load() {
 }
 
 fun archiveNote() {
-    listNotes()
+    listAllNotes()
     if (noteAPI.numberOfActiveNotes() > 0) {
         //only ask the user to choose the note to archive if active notes exist
         val indexToArchive = readNextInt("Enter the index of the note to archive: ")
