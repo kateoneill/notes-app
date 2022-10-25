@@ -12,16 +12,55 @@ private val logger = KotlinLogging.logger {}
 //private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
 private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
 
+val blue ="\u001b[34m"
+val cyan = "\u001b[36m"
+val red = "\u001b[31m"
+val yellow = "\u001b[33m"
+val green = "\u001b[32m"
+val reset ="\u001b[0m"
+
 
 fun main(args: Array<String>) {
-    runMenu()
+    entryscreen()
 }
+
+fun entryscreen() {
+    do {
+        val option = entryscreendisplay()
+        when (option){
+            1 -> runMenu()
+            else-> runMenu()
+        }
+    } while(true)
+}
+
+fun entryscreendisplay(): Int{
+    return ScannerInput.readNextInt("""
+          >   $blue  _   __      __               ___             
+          >    / | / /___  / /____  _____   /   |  ____  ____
+          >   /  |/ / __ \/ __/ _ \/ ___/  / /| | / __ \/ __ \
+          >  / /|  / /_/ / /_/  __(__  )  / ___ |/ /_/ / /_/ /
+          > /_/ |_/\____/\__/\___/____/  /_/  |_/ .___/ .___/ 
+          >                                    /_/   /_/  $reset
+          >                                    
+          >        $cyan[Press any number key to enter]$reset
+          >         
+          >""".trimMargin(">"))
+
+}
+
 fun mainMenu() : Int {
     return ScannerInput.readNextInt("""
-          > ----------------------------------
+          >$red               _'_
+          >            .-|   |-.
+          >           /  .===.  \$reset
+          >           $red\/$reset$blue 6   6$reset $red\/$reset
+          >           (  $red\___/$reset  )
+          >  ___ooo____\_______/_____________
+          > |                                |
           > |        NOTE KEEPER APP         |
-          > ----------------------------------
-          > | NOTE MENU                      |
+          > $green----------------------------------
+          > |  NOTE MENU                     |
           > |   1) Add a note                |
           > |   2) List all notes            |
           > |   3) Update a note             |
@@ -29,9 +68,16 @@ fun mainMenu() : Int {
           > |   5) Archive notes             |
           > |   6) Save notes                |
           > |   7) Load notes                |
-          > ----------------------------------
+          > ----------------------------------$reset 
           > |   0) Exit                      |
-          > ----------------------------------
+          > _________________________ooo______
+          >         $cyan|  |      |  |
+          >         |  |      |  |
+          >         |$reset$blue-$reset $blue|      |$reset$blue-$reset $cyan|
+          >         |  |      |  |
+          >         |__|      |__|$reset
+          >       $red  /- ')     (' -\
+          >        (___/       \___)$reset
           > ==>> """.trimMargin(">"))
 }
 
