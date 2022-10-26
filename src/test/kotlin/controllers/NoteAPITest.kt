@@ -87,7 +87,7 @@ class NoteAPITest {
         }
 
         @Test
-        fun `listActiveNotes returns No Active Notes! message when ArrayList is empty`() {
+        fun `listActiveNotes returns no active notes stored when ArrayList is empty`() {
             assertEquals(0, emptyNotes!!.numberOfActiveNotes())
             assertTrue(
                 emptyNotes!!.listActiveNotes().lowercase().contains("no active notes")
@@ -95,18 +95,18 @@ class NoteAPITest {
         }
 
         @Test
-        fun `listActiveNotes returns the active notes when ArrayList has active notes stored`() {
+        fun `listActiveNotes returns active notes when ArrayList has active notes stored`() {
             assertEquals(3, populatedNotes!!.numberOfActiveNotes())
             val activeNotesString = populatedNotes!!.listActiveNotes().lowercase()
             assertTrue(activeNotesString.contains("learning kotlin"))
-            Assertions.assertFalse(activeNotesString.contains("code app"))
+            assertFalse(activeNotesString.contains("code app"))
             assertTrue(activeNotesString.contains("summer holiday"))
             assertTrue(activeNotesString.contains("test app"))
-            Assertions.assertFalse(activeNotesString.contains("swim"))
+            assertFalse(activeNotesString.contains("swim"))
         }
 
         @Test
-        fun `listArchivedNotes returns No Archived Notes! message when ArrayList is empty`() {
+        fun `listArchivedNotes returns no archived notes when ArrayList is empty`() {
             assertEquals(0, emptyNotes!!.numberOfArchivedNotes())
             assertTrue(
                 emptyNotes!!.listArchivedNotes().lowercase().contains("no archived notes")
@@ -114,18 +114,25 @@ class NoteAPITest {
         }
 
         @Test
-        fun `listArchivedNotes returns the archived notes when ArrayList has archived notes stored`() {
+        fun `listArchivedNotes returns archived notes when ArrayList has archived notes stored`() {
             assertEquals(2, populatedNotes!!.numberOfArchivedNotes())
             val archivedNotesString = populatedNotes!!.listArchivedNotes().lowercase()
-            Assertions.assertFalse(archivedNotesString.contains("learning kotlin"))
+            assertFalse(archivedNotesString.contains("learning kotlin"))
             assertTrue(archivedNotesString.contains("code app"))
-            Assertions.assertFalse(archivedNotesString.contains("summer holiday"))
-            Assertions.assertFalse(archivedNotesString.contains("test app"))
+            assertFalse(archivedNotesString.contains("summer holiday"))
+            assertFalse(archivedNotesString.contains("test app"))
             assertTrue(archivedNotesString.contains("swim"))
         }
 
         @Test
-        fun `listNotesBySelectedPriority returns No notes when no notes of that priority exist`() {
+        fun `listNotesBySelectedPriority returns No Notes when ArrayList is empty`() {
+            assertEquals(0, emptyNotes!!.numberOfNotes())
+            assertTrue(emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes")
+            )
+        }
+
+        @Test
+        fun `listNotesBySelectedPriority returns no notes when no notes of that priority exist`() {
             //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
             assertEquals(5, populatedNotes!!.numberOfNotes())
             val priority2String = populatedNotes!!.listNotesBySelectedPriority(2).lowercase()
@@ -134,29 +141,28 @@ class NoteAPITest {
         }
 
         @Test
-        fun `listNotesBySelectedPriority returns all notes that match the given priority when notes of that priority exist`() {
+        fun `listNotesBySelectedPriority returns all notes that match that priority when notes of that priority exist`() {
             //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
             assertEquals(5, populatedNotes!!.numberOfNotes())
             val priority1String = populatedNotes!!.listNotesBySelectedPriority(1).lowercase()
             assertTrue(priority1String.contains("1 note"))
             assertTrue(priority1String.contains("priority 1"))
             assertTrue(priority1String.contains("summer holiday"))
-            Assertions.assertFalse(priority1String.contains("swim"))
-            Assertions.assertFalse(priority1String.contains("learning kotlin"))
-            Assertions.assertFalse(priority1String.contains("code app"))
-            Assertions.assertFalse(priority1String.contains("test app"))
+            assertFalse(priority1String.contains("swim"))
+            assertFalse(priority1String.contains("learning kotlin"))
+            assertFalse(priority1String.contains("code app"))
+            assertFalse(priority1String.contains("test app"))
 
 
             val priority4String = populatedNotes!!.listNotesBySelectedPriority(4).lowercase()
             assertTrue(priority4String.contains("2 note"))
             assertTrue(priority4String.contains("priority 4"))
-            Assertions.assertFalse(priority4String.contains("swim"))
+            assertFalse(priority4String.contains("swim"))
             assertTrue(priority4String.contains("code app"))
             assertTrue(priority4String.contains("test app"))
-            Assertions.assertFalse(priority4String.contains("learning kotlin"))
-            Assertions.assertFalse(priority4String.contains("summer holiday"))
+            assertFalse(priority4String.contains("learning kotlin"))
+            assertFalse(priority4String.contains("summer holiday"))
         }
-
     }
 
     @Nested
