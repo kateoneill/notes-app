@@ -218,3 +218,13 @@ fun archiveNote() {
     }
 }
 
+fun searchNotes(){
+    val searchTitle = readNextLine("Enter description to search by: ")
+    val searchResults = noteAPI.searchByTitle(searchTitle)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
