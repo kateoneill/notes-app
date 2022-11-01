@@ -102,7 +102,10 @@ fun addNote(){
     val noteTitle = readNextLine("Enter a title for the note: ")
     val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     val noteCategory = readNextLine("Enter a category for the note: ")
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false))
+    val noteProgress = readNextLine("Enter a progress (To-do, doing, done):")
+    val collaborator = readNextLine("Enter a note collaborator:")
+    val dueBy = readNextLine("Add due by time (today, week, month, year):")
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, noteProgress, collaborator,dueBy))
 
     if (isAdded) {
         println("Added Successfully")
@@ -113,7 +116,7 @@ fun addNote(){
 
 fun updateNote() {
     //logger.info { "updateNotes() function invoked" }
-    listNotes()
+    listAllNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note if notes exist
         val indexToUpdate = readNextInt("Enter the index of the note to update: ")
@@ -121,9 +124,12 @@ fun updateNote() {
             val noteTitle = readNextLine("Enter a title for the note: ")
             val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
             val noteCategory = readNextLine("Enter a category for the note: ")
+            val noteProgress = readNextLine("Enter a progress (To-do, doing, done): ")
+            val collaborator = readNextLine("Enter a note collaborator: ")
+            val dueBy = readNextLine("Add due by time (today, week, month, year): ")
 
             //pass the index of the note and the new note details to NoteAPI for updating and check for success.
-            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false))){
+            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false, noteProgress, collaborator, dueBy))){
                 println("Update Successful")
             } else {
                 println("Update Failed")

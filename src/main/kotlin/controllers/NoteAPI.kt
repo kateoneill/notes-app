@@ -76,9 +76,9 @@ class NoteAPI(serializerType: Serializer) {
 
 
 
-    fun numberOfNotesByPriority(priority: Int): Int {
+    fun numberOfNotesByPriority(priority: Int): Int = notes.count {
         //helper method to determine how many notes there are of a specific priority
-        notes.count{ note: Note -> note.notePriority == priority}
+        note: Note -> note.notePriority == priority
     }
 
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
@@ -90,6 +90,9 @@ class NoteAPI(serializerType: Serializer) {
             foundNote.noteTitle = note.noteTitle
             foundNote.notePriority = note.notePriority
             foundNote.noteCategory = note.noteCategory
+            foundNote.noteProgress = note.noteProgress
+            foundNote.collaborator = note.collaborator
+            foundNote.dueBy = note.dueBy
             return true
         }
 
