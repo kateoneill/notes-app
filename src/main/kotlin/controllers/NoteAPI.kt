@@ -4,6 +4,7 @@ import models.Note
 import persistence.Serializer
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import utils.Utilities.isValidListIndex
 
 class NoteAPI(serializerType: Serializer) {
     private var serializer: Serializer = serializerType
@@ -47,10 +48,6 @@ class NoteAPI(serializerType: Serializer) {
         return if (isValidListIndex(index, notes)) {
             notes[index]
         }else null
-    }
-
-    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
-        return (index >= 0 && index < list.size)
     }
 
     fun listActiveNotes(): String =
