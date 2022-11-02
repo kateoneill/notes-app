@@ -178,6 +178,7 @@ fun countNotes(){
                   > |   2) Count ACTIVE notes      |
                   > |   3) Count ARCHIVED notes    |
                   > |   4) Count notes by priority |
+                  > |   5) Count household notes   |
                   > --------------------------------
          > ==>> """.trimMargin(">"))
 
@@ -185,7 +186,8 @@ fun countNotes(){
             1 -> countAllNotes();
             2 -> countActiveNotes();
             3 -> countArchivedNotes();
-            4 -> countNotesBySelectedPriority()
+            4 -> countNotesBySelectedPriority();
+            5 -> countHouseholdNotes();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -285,6 +287,10 @@ fun countActiveNotes() {
 
 fun countArchivedNotes() {
     println(noteAPI.numberOfArchivedNotes())
+}
+
+fun countHouseholdNotes() {
+    println(noteAPI.numberOfHouseholdNotes())
 }
 
 fun countNotesBySelectedPriority(){
