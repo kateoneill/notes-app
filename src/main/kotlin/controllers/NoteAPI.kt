@@ -82,6 +82,10 @@ class NoteAPI(serializerType: Serializer) {
             note: Note -> note.noteCategory == category
     }
 
+    fun numberOfNotesByProgress(progress: String): Int = notes.count{
+        note: Note -> note.noteProgress == progress
+    }
+
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
         //find the note object by the index number
         val foundNote = findNote(indexToUpdate)

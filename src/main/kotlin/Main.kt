@@ -180,6 +180,7 @@ fun countNotes(){
                   > |   4) Count notes by priority |
                   > |   5) Count household notes   |
                   > |   6) Count notes by category |
+                  > |   7) Count notes by progress |
                   > --------------------------------
          > ==>> """.trimMargin(">"))
 
@@ -190,6 +191,7 @@ fun countNotes(){
             4 -> countNotesBySelectedPriority();
             5 -> countHouseholdNotesCategory();
             6 -> countNotesByCategory();
+            7 -> countNotesByProgress();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -304,5 +306,11 @@ fun countNotesBySelectedPriority(){
 fun countNotesByCategory(){
     val category = readValidCategory("Enter category to search by: ")
     val searchResults = noteAPI.numberOfNotesByCategory(category)
+    println(searchResults)
+}
+
+fun countNotesByProgress() {
+    val progress = readValidProgress("Enter progress level to search by: ")
+    val searchResults = noteAPI.numberOfNotesByProgress(progress)
     println(searchResults)
 }
