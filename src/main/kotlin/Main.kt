@@ -267,15 +267,19 @@ fun searchNotes(){
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(
             """
-                  > -------------------------------------
-                  > |   1) Search notes by description  |
-                  > |   2) Search notes by progress     |
-                  > -------------------------------------
+                  > -------------------------------------------------
+                  > |   1) Search notes by description               |
+                  > |   2) Search notes by progress                  |
+                  > |   3) Search notes by collaborator              |
+                  > |   4) Search notes by collaborator first letter |
+                  > -------------------------------------------------
          > ==>> """.trimMargin(">"))
 
         when (option) {
             1 -> searchNotesByDesc();
             2 -> searchNotesByProgress();
+            3 -> searchNotesByCollaborator();
+            4 -> searchNotesByCollabLetter();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -296,6 +300,26 @@ fun searchNotesByDesc(){
 fun searchNotesByProgress(){
     val searchProgress = readNextLine("Enter progress to search by (to-do, doing, done): ")
     val searchResults = noteAPI.searchByProgress(searchProgress)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+fun searchNotesByCollaborator(){
+    val searchCollaborator = readNextLine("Enter collaborator to search by: ")
+    val searchResults = noteAPI.searchByCollaborator(searchCollaborator)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+fun searchNotesByCollabLetter(){
+    val searchCollaborator = readNextLine("Enter collaborator to search by: ")
+    val searchResults = noteAPI.searchByCollaboratorFirstL(searchCollaborator)
     if(searchResults.isEmpty()){
         println("No Notes found")
     } else {
