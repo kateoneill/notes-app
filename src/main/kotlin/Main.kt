@@ -70,6 +70,7 @@ fun mainMenu() : Int {
           > |   4) Delete a note             |
           > |   5) Archive notes             |
           > |   6) Count notes               |
+          > |   7) Search notes              |
           > |   10) Save notes               |
           > |   11) Load notes               |
           > ----------------------------------$reset 
@@ -95,6 +96,7 @@ fun runMenu() {
             4 -> deleteNote()
             5 -> archiveNote()
             6 -> countNotes()
+            7 -> searchNotes()
             10 -> save()
             11 -> load()
             0 -> exitApp()
@@ -262,6 +264,24 @@ fun archiveNote() {
 }
 
 fun searchNotes(){
+    if (noteAPI.numberOfNotes() > 0) {
+        val option = readNextInt(
+            """
+                  > -------------------------------------
+                  > |   1) Search notes by description  |
+                  > -------------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> searchNotesByDesc();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - There are no notes");
+    }
+}
+
+fun searchNotesByDesc(){
     val searchTitle = readNextLine("Enter description to search by: ")
     val searchResults = noteAPI.searchByTitle(searchTitle)
     if(searchResults.isEmpty()){
