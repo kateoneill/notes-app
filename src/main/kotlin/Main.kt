@@ -2,7 +2,6 @@ import controllers.NoteAPI
 import models.Note
 import mu.KotlinLogging
 import persistence.JSONSerializer
-import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
@@ -152,6 +151,7 @@ fun listNotes(){
                   > |   1) View ALL notes          |
                   > |   2) View ACTIVE notes       |
                   > |   3) View ARCHIVED notes     |
+                  > |   4) View notes by priority  |
                   > --------------------------------
          > ==>> """.trimMargin(">"))
 
@@ -159,6 +159,7 @@ fun listNotes(){
             1 -> listAllNotes();
             2 -> listActiveNotes();
             3 -> listArchivedNotes();
+            4 -> listNotesBySelectedPriority();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -231,6 +232,16 @@ fun archiveNote() {
 fun searchNotes(){
     val searchTitle = readNextLine("Enter description to search by: ")
     val searchResults = noteAPI.searchByTitle(searchTitle)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+fun listNotesBySelectedPriority(){
+    val priorityValue = readValidPriority("Enter priority level (1-5) to search by: ")
+    val searchResults = noteAPI.listNotesBySelectedPriority(priorityValue)
     if(searchResults.isEmpty()){
         println("No Notes found")
     } else {

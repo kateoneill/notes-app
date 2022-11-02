@@ -2,8 +2,6 @@ package controllers
 
 import models.Note
 import persistence.Serializer
-import utils.ScannerInput.readNextInt
-import utils.ScannerInput.readNextLine
 import utils.Utilities.isValidListIndex
 
 class NoteAPI(serializerType: Serializer) {
