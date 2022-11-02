@@ -64,6 +64,11 @@ class NoteAPI(serializerType: Serializer) {
             else "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
         }
 
+    fun listNotesByProgress(): String =
+    if  (numberOfNotes() == 0)  "No notes stored"
+    else formatListString(notes.filter { note -> note.noteProgress == "to-do"})
+
+
     fun numberOfArchivedNotes(): Int = notes.count { note: Note -> note.isNoteArchived }
 
 

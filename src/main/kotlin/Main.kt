@@ -156,6 +156,7 @@ fun listNotes(){
                   > |   2) View ACTIVE notes       |
                   > |   3) View ARCHIVED notes     |
                   > |   4) View notes by priority  |
+                  > |   5) View all to-do notes    |
                   > --------------------------------
          > ==>> """.trimMargin(">"))
 
@@ -164,6 +165,7 @@ fun listNotes(){
             2 -> listActiveNotes();
             3 -> listArchivedNotes();
             4 -> listNotesBySelectedPriority();
+            5 -> groupByProgressTodo();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -211,6 +213,10 @@ fun listActiveNotes() {
 
 fun listArchivedNotes() {
     println(noteAPI.listArchivedNotes())
+}
+
+fun groupByProgressTodo() {
+    println(noteAPI.listNotesByProgress())
 }
 fun deleteNote(){
 //    logger.info { "deleteNote() function invoked" }
