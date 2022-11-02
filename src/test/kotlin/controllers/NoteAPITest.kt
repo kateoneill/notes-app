@@ -401,6 +401,31 @@ class NoteAPITest {
             assertTrue(searchResults.contains("Test App"))
             assertFalse(searchResults.contains("Swim - Pool"))
         }
+
+        @Test
+        fun `search notes by progress returns when no notes with that progress exist`(){
+            assertEquals(6, populatedNotes!!.numberOfNotes())
+            val searchResults = populatedNotes!!.searchByProgress("no results expected")
+            assertTrue(searchResults.isEmpty())
+
+            assertEquals(0, emptyNotes!!.numberOfNotes())
+            assertTrue(emptyNotes!!.searchByProgress("").isEmpty())
+        }
+
+        @Test
+        fun `search notes by progress returns notes when notes with that progress exist`(){
+            assertEquals(6, populatedNotes!!.numberOfNotes())
+
+            var searchResults = populatedNotes!!.searchByProgress("to-do")
+            assertTrue(searchResults.contains("to-do"))
+            assertFalse(searchResults.contains("doing"))
+
+            searchResults = populatedNotes!!.searchByProgress("do")
+            assertFalse(searchResults.contains("to-do"))
+            assertFalse(searchResults.contains("doing"))
+            assertFalse(searchResults.contains("done"))
+
+        }
     }
 
 }
