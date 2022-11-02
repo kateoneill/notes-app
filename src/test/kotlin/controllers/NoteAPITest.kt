@@ -426,6 +426,46 @@ class NoteAPITest {
             assertFalse(searchResults.contains("done"))
 
         }
+
+        @Test
+        fun `search notes by collaborator returns when no notes with that collaborator exist`(){
+            assertEquals(6, populatedNotes!!.numberOfNotes())
+            val searchResults = populatedNotes!!.searchByTitle("Kate")
+            assertTrue(searchResults.isEmpty())
+
+            assertEquals(0, emptyNotes!!.numberOfNotes())
+            assertTrue(emptyNotes!!.searchByTitle("").isEmpty())
+        }
+
+        @Test
+        fun `search notes by collaborator returns notes when notes with that collaborator exist`(){
+            assertEquals(6, populatedNotes!!.numberOfNotes())
+
+            var searchResults = populatedNotes!!.searchByCollaborator("Maria")
+            assertTrue(searchResults.contains("Maria"))
+            assertFalse(searchResults.contains("sally"))
+
+            searchResults = populatedNotes!!.searchByCollaborator("Sal")
+            assertTrue(searchResults.contains("Sally"))
+            assertFalse(searchResults.contains("Leah"))
+
+            searchResults = populatedNotes!!.searchByCollaborator("leAh")
+            assertTrue(searchResults.contains("Leah"))
+            assertFalse(searchResults.contains("Maria"))
+        }
+
+        @Test
+        fun `search notes by collaborator first letter returns notes when notes with that collaborator exist`(){
+            assertEquals(6, populatedNotes!!.numberOfNotes())
+
+            var searchResults = populatedNotes!!.searchByCollaboratorFirstL("M")
+            assertTrue(searchResults.contains("Maria"))
+            assertFalse(searchResults.contains("sally"))
+
+            searchResults = populatedNotes!!.searchByCollaboratorFirstL("L")
+            assertTrue(searchResults.contains("Leah"))
+            assertFalse(searchResults.contains("Sally"))
+        }
     }
 
 }

@@ -113,6 +113,16 @@ class NoteAPI(serializerType: Serializer) {
         formatListString(
             notes.filter { note -> note.noteProgress.equals(searchString, ignoreCase = true) })
 
+    fun searchByCollaborator(searchString: String) =
+        formatListString(
+            notes.filter { note -> note.collaborator.contains(searchString, ignoreCase = true)}
+        )
+
+    fun searchByCollaboratorFirstL(searchString: String) =
+        formatListString(
+            notes.filter{ note -> note.collaborator.startsWith(searchString, ignoreCase = true)}
+        )
+
     fun isValidIndex(index: Int) :Boolean{
         return isValidListIndex(index, notes);
     }
