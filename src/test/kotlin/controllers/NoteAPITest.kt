@@ -349,8 +349,8 @@ class NoteAPITest {
 
         @Test
         fun numberOfNotesInHouseholdCatCalculatedCorrectly() {
-            assertEquals(1, populatedNotes!!.numberOfHouseholdNotes())
-            assertEquals(0, emptyNotes!!.numberOfHouseholdNotes())
+            assertEquals(1, populatedNotes!!.numberOfNotesHouseholdCat())
+            assertEquals(0, emptyNotes!!.numberOfNotesHouseholdCat())
         }
     }
 

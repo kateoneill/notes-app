@@ -187,7 +187,7 @@ fun countNotes(){
             2 -> countActiveNotes();
             3 -> countArchivedNotes();
             4 -> countNotesBySelectedPriority();
-            5 -> countHouseholdNotes();
+            5 -> countHouseholdNotesCategory();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -289,8 +289,8 @@ fun countArchivedNotes() {
     println(noteAPI.numberOfArchivedNotes())
 }
 
-fun countHouseholdNotes() {
-    println(noteAPI.numberOfHouseholdNotes())
+fun countHouseholdNotesCategory() {
+    println(noteAPI.numberOfNotesHouseholdCat())
 }
 
 fun countNotesBySelectedPriority(){
