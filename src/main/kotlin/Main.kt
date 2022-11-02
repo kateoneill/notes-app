@@ -269,11 +269,13 @@ fun searchNotes(){
             """
                   > -------------------------------------
                   > |   1) Search notes by description  |
+                  > |   2) Search notes by progress     |
                   > -------------------------------------
          > ==>> """.trimMargin(">"))
 
         when (option) {
             1 -> searchNotesByDesc();
+            2 -> searchNotesByProgress();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -284,6 +286,16 @@ fun searchNotes(){
 fun searchNotesByDesc(){
     val searchTitle = readNextLine("Enter description to search by: ")
     val searchResults = noteAPI.searchByTitle(searchTitle)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+fun searchNotesByProgress(){
+    val searchProgress = readNextLine("Enter progress to search by (to-do, doing, done): ")
+    val searchResults = noteAPI.searchByProgress(searchProgress)
     if(searchResults.isEmpty()){
         println("No Notes found")
     } else {
