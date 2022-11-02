@@ -352,6 +352,16 @@ class NoteAPITest {
             assertEquals(1, populatedNotes!!.numberOfNotesHouseholdCat())
             assertEquals(0, emptyNotes!!.numberOfNotesHouseholdCat())
         }
+
+        @Test
+        fun numberOfNotesByCategoryCalculatedCorrectly() {
+            assertEquals(2, populatedNotes!!.numberOfNotesByCategory("Work"))
+            assertEquals(1, populatedNotes!!.numberOfNotesByCategory("College"))
+            assertEquals(1, populatedNotes!!.numberOfNotesByCategory("Household"))
+            assertEquals(1, populatedNotes!!.numberOfNotesByCategory("Fitness"))
+            assertEquals(1, populatedNotes!!.numberOfNotesByCategory("Recreational"))
+            assertEquals(0, emptyNotes!!.numberOfNotesByCategory("Wellbeing"))
+        }
     }
 
     @Nested

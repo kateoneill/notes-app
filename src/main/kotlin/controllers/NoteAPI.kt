@@ -77,6 +77,11 @@ class NoteAPI(serializerType: Serializer) {
         note: Note -> note.notePriority == priority
     }
 
+    fun numberOfNotesByCategory(category: String): Int = notes.count {
+        //helper method to determine how many notes there are of a specific priority
+            note: Note -> note.noteCategory == category
+    }
+
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
         //find the note object by the index number
         val foundNote = findNote(indexToUpdate)
