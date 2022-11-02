@@ -166,6 +166,15 @@ class NoteAPITest {
             assertFalse(priority4String.contains("learning kotlin"))
             assertFalse(priority4String.contains("summer holiday"))
         }
+
+        @Test
+        fun `listNotesYetToBeDone returns all notes when marked to-do`() {
+            assertEquals(6, populatedNotes!!.numberOfNotes())
+
+            val toDoNotesString = populatedNotes!!.listNotesByProgress().lowercase()
+            assertTrue(toDoNotesString.contains("learning kotlin"))
+            assertFalse(toDoNotesString.contains("test app"))
+        }
     }
 
     @Nested

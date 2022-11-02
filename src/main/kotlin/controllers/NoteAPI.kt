@@ -65,8 +65,8 @@ class NoteAPI(serializerType: Serializer) {
         }
 
     fun listNotesByProgress(): String =
-    if  (notes.isEmpty())  "No notes stored"
-    else formatListString(notes.filter { note -> note.noteProgress == "To-do"})
+    if  (numberOfNotes() == 0)  "No notes stored"
+    else formatListString(notes.filter { note -> note.noteProgress == "to-do"})
 
 
     fun numberOfArchivedNotes(): Int = notes.count { note: Note -> note.isNoteArchived }
