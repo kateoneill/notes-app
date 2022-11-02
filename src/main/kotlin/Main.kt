@@ -69,8 +69,9 @@ fun mainMenu() : Int {
           > |   3) Update a note             |
           > |   4) Delete a note             |
           > |   5) Archive notes             |
-          > |   6) Save notes                |
-          > |   7) Load notes                |
+          > |   6) Count notes               |
+          > |   10) Save notes               |
+          > |   11) Load notes               |
           > ----------------------------------$reset 
           > |   0) Exit                      |
           > _________________________ooo______
@@ -93,8 +94,9 @@ fun runMenu() {
             3 -> updateNote()
             4 -> deleteNote()
             5 -> archiveNote()
-            6 -> save()
-            7 -> load()
+            6 -> countNotes()
+            10 -> save()
+            11 -> load()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -160,6 +162,36 @@ fun listNotes(){
             2 -> listActiveNotes();
             3 -> listArchivedNotes();
             4 -> listNotesBySelectedPriority();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - There are no notes");
+    }
+}
+
+fun countNotes(){
+    if (noteAPI.numberOfNotes() > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                  > |   1) Count ALL notes         |
+                  > |   2) Count ACTIVE notes      |
+                  > |   3) Count ARCHIVED notes    |
+                  > |   4) Count notes by priority |
+                  > |   5) Count household notes   |
+                  > |   6) Count notes by category |
+                  > |   7) Count notes by progress |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> countAllNotes();
+            2 -> countActiveNotes();
+            3 -> countArchivedNotes();
+            4 -> countNotesBySelectedPriority();
+            5 -> countHouseholdNotesCategory();
+            6 -> countNotesByCategory();
+            7 -> countNotesByProgress();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -249,3 +281,36 @@ fun listNotesBySelectedPriority(){
     }
 }
 
+fun countAllNotes() {
+    println(noteAPI.numberOfNotes())
+}
+
+fun countActiveNotes() {
+    println(noteAPI.numberOfActiveNotes())
+}
+
+fun countArchivedNotes() {
+    println(noteAPI.numberOfArchivedNotes())
+}
+
+fun countHouseholdNotesCategory() {
+    println(noteAPI.numberOfNotesHouseholdCat())
+}
+
+fun countNotesBySelectedPriority(){
+    val priorityValue = readValidPriority("Enter priority level (1-5) to search by: ")
+    val searchResults = noteAPI.numberOfNotesByPriority(priorityValue)
+    println(searchResults)
+}
+
+fun countNotesByCategory(){
+    val category = readValidCategory("Enter category to search by: ")
+    val searchResults = noteAPI.numberOfNotesByCategory(category)
+    println(searchResults)
+}
+
+fun countNotesByProgress() {
+    val progress = readValidProgress("Enter progress level to search by: ")
+    val searchResults = noteAPI.numberOfNotesByProgress(progress)
+    println(searchResults)
+}

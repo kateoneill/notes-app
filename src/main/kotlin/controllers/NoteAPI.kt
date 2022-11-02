@@ -69,11 +69,21 @@ class NoteAPI(serializerType: Serializer) {
 
     fun numberOfActiveNotes(): Int = notes.count { note: Note -> !note.isNoteArchived }
 
+    fun numberOfNotesHouseholdCat(): Int = notes.count { note: Note -> note.noteCategory == "Household"  }
 
 
     fun numberOfNotesByPriority(priority: Int): Int = notes.count {
         //helper method to determine how many notes there are of a specific priority
         note: Note -> note.notePriority == priority
+    }
+
+    fun numberOfNotesByCategory(category: String): Int = notes.count {
+        //helper method to determine how many notes there are of a specific priority
+            note: Note -> note.noteCategory == category
+    }
+
+    fun numberOfNotesByProgress(progress: String): Int = notes.count{
+        note: Note -> note.noteProgress == progress
     }
 
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
