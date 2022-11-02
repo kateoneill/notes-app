@@ -6,6 +6,10 @@ import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import utils.ValidateInput.readValidCategory
+import utils.ValidateInput.readValidDueDate
+import utils.ValidateInput.readValidPriority
+import utils.ValidateInput.readValidProgress
 import java.io.File
 import java.lang.System.exit
 private val logger = KotlinLogging.logger {}
@@ -100,11 +104,11 @@ fun runMenu() {
 
 fun addNote(){
     val noteTitle = readNextLine("Enter a title for the note: ")
-    val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
-    val noteCategory = readNextLine("Enter a category for the note: ")
-    val noteProgress = readNextLine("Enter a progress (To-do, doing, done):")
-    val collaborator = readNextLine("Enter a note collaborator:")
-    val dueBy = readNextLine("Add due by time (today, week, month, year):")
+    val notePriority = readValidPriority("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+    val noteCategory = readValidCategory("Enter a category for the note: ")
+    val noteProgress = readValidProgress("Enter a progress (To-do, doing, done): ")
+    val collaborator = readNextLine("Enter a note collaborator: ")
+    val dueBy = readValidDueDate("Add due by time (today, week, month, year): ")
     val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, noteProgress, collaborator,dueBy))
 
     if (isAdded) {
@@ -122,11 +126,11 @@ fun updateNote() {
         val indexToUpdate = readNextInt("Enter the index of the note to update: ")
         if (noteAPI.isValidIndex(indexToUpdate)) {
             val noteTitle = readNextLine("Enter a title for the note: ")
-            val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
-            val noteCategory = readNextLine("Enter a category for the note: ")
-            val noteProgress = readNextLine("Enter a progress (To-do, doing, done): ")
+            val notePriority = readValidPriority("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+            val noteCategory = readValidCategory("Enter a category for the note: ")
+            val noteProgress = readValidProgress("Enter a progress (To-do, doing, done): ")
             val collaborator = readNextLine("Enter a note collaborator: ")
-            val dueBy = readNextLine("Add due by time (today, week, month, year): ")
+            val dueBy = readValidDueDate("Add due by time (today, week, month, year): ")
 
             //pass the index of the note and the new note details to NoteAPI for updating and check for success.
             if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false, noteProgress, collaborator, dueBy))){
