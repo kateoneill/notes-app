@@ -24,7 +24,7 @@ class NoteAPITest {
         learnKotlin = Note("Learning Kotlin", 5, "College", false, "to-do","nobody","month")
         summerHoliday = Note("Summer Holiday to France", 1, "Recreational", false, "to-do","sally","year")
         codeApp = Note("Code App", 4, "Work", true, "doing","Maria", "week")
-        testApp = Note("Test App", 4, "Work", false, "done", "Maria", "month")
+        testApp = Note("Test App", 4, "Work", false, "doing", "Maria", "month")
         swim = Note("Swim - Pool", 3, "Fitness", true,"to-do", "Sally", "year")
         hoover = Note("Hoovering", 3, "Household", false, "to-do", "Leah", "year")
 
@@ -174,6 +174,43 @@ class NoteAPITest {
             val toDoNotesString = populatedNotes!!.listNotesByProgress().lowercase()
             assertTrue(toDoNotesString.contains("learning kotlin"))
             assertFalse(toDoNotesString.contains("test app"))
+        }
+
+        @Test
+        fun `listNotesByDueDate returns No Notes when ArrayList is empty`() {
+            assertEquals(0, emptyNotes!!.numberOfNotes())
+            assertTrue(emptyNotes!!.listNotesByDueDate("day").lowercase().contains("no notes")
+            )
+        }
+
+        @Test
+        fun `listNotesByDueDate returns no notes when no notes due then exist`() {
+            //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
+            assertEquals(6, populatedNotes!!.numberOfNotes())
+            val dayString = populatedNotes!!.listNotesByDueDate("day").lowercase()
+            assertTrue(dayString.contains("no notes"))
+            assertTrue(dayString.contains("day"))
+        }
+
+        @Test
+        fun `listNotesByDueDate returns all notes that match that due date when notes due then exist`() {
+            assertEquals(6, populatedNotes!!.numberOfNotes())
+            val weekString = populatedNotes!!.listNotesByDueDate("week").lowercase()
+            assertTrue(weekString.contains("code app"))
+            assertFalse(weekString.contains("test app"))
+            assertFalse(weekString.contains("learning kotlin"))
+            assertFalse(weekString.contains("summer holiday"))
+            assertFalse(weekString.contains("hoovering"))
+            assertFalse(weekString.contains("swim - pool"))
+
+
+            val monthString = populatedNotes!!.listNotesByDueDate("month").lowercase()
+            assertFalse(monthString.contains("summer holiday to france"))
+            assertTrue(monthString.contains("learning kotlin"))
+            assertTrue(monthString.contains("test app"))
+            assertFalse(monthString.contains("code app"))
+            assertFalse(monthString.contains("hoovering"))
+            assertFalse(monthString.contains("swim - pool"))
         }
     }
 
@@ -375,8 +412,8 @@ class NoteAPITest {
         @Test
         fun numberOfNotesByProgressCalculatedCorrectly() {
             assertEquals(4, populatedNotes!!.numberOfNotesByProgress("to-do"))
-            assertEquals(1, populatedNotes!!.numberOfNotesByProgress("doing"))
-            assertEquals(1, populatedNotes!!.numberOfNotesByProgress("done"))
+            assertEquals(2, populatedNotes!!.numberOfNotesByProgress("doing"))
+            assertEquals(0, populatedNotes!!.numberOfNotesByProgress("done"))
         }
     }
 

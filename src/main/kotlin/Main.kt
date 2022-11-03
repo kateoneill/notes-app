@@ -111,7 +111,7 @@ fun addNote(){
     val noteCategory = readValidCategory("Enter a category for the note: ")
     val noteProgress = readValidProgress("Enter a progress (To-do, doing, done): ")
     val collaborator = readNextLine("Enter a note collaborator: ")
-    val dueBy = readValidDueDate("Add due by time (today, week, month, year): ")
+    val dueBy = readValidDueDate("Add due by time (day, week, month, year): ")
     val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, noteProgress, collaborator,dueBy))
 
     if (isAdded) {
@@ -133,7 +133,7 @@ fun updateNote() {
             val noteCategory = readValidCategory("Enter a category for the note: ")
             val noteProgress = readValidProgress("Enter a progress (To-do, doing, done): ")
             val collaborator = readNextLine("Enter a note collaborator: ")
-            val dueBy = readValidDueDate("Add due by time (today, week, month, year): ")
+            val dueBy = readValidDueDate("Add due by time (day, week, month, year): ")
 
             //pass the index of the note and the new note details to NoteAPI for updating and check for success.
             if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false, noteProgress, collaborator, dueBy))){
@@ -157,6 +157,7 @@ fun listNotes(){
                   > |   3) View ARCHIVED notes     |
                   > |   4) View notes by priority  |
                   > |   5) View all to-do notes    |
+                  > |   6) View notes by due date  |
                   > --------------------------------
          > ==>> """.trimMargin(">"))
 
@@ -166,6 +167,7 @@ fun listNotes(){
             3 -> listArchivedNotes();
             4 -> listNotesBySelectedPriority();
             5 -> groupByProgressTodo();
+            6 -> listNotesByDueDate();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -336,6 +338,16 @@ fun searchNotesByCollabLetter(){
 fun listNotesBySelectedPriority(){
     val priorityValue = readValidPriority("Enter priority level (1-5) to search by: ")
     val searchResults = noteAPI.listNotesBySelectedPriority(priorityValue)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+fun listNotesByDueDate(){
+    val dueDate = readValidDueDate("Enter due date (day, week, month, year) to search by: ")
+    val searchResults = noteAPI.listNotesByDueDate(dueDate)
     if(searchResults.isEmpty()){
         println("No Notes found")
     } else {
