@@ -68,6 +68,14 @@ class NoteAPI(serializerType: Serializer) {
     if  (numberOfNotes() == 0)  "No notes stored"
     else formatListString(notes.filter { note -> note.noteProgress == "to-do"})
 
+    fun listNotesByDueDate(dueDate: String): String =
+        if (notes.isEmpty()) "No notes stored"
+        else {
+            val listOfNotes = formatListString(notes.filter{ note -> note.dueBy == dueDate})
+            if (listOfNotes.equals("")) "No notes with due by end of the $dueDate"
+            else "$dueDate: $listOfNotes"
+        }
+
 
     fun numberOfArchivedNotes(): Int = notes.count { note: Note -> note.isNoteArchived }
 
