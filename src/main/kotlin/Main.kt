@@ -24,6 +24,7 @@ val reset ="\u001b[0m"
 
 
 fun main(args: Array<String>) {
+    logger.info { "🚀Launching models.notes App 🚀" }
     entryscreen()
 }
 
@@ -107,6 +108,7 @@ fun runMenu() {
 
 //add note
 fun addNote(){
+    logger.info { "You are adding a note 📝" }
     val noteTitle = readNextLine("Enter a title for the note: ")
     val notePriority = readValidPriority("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     val noteCategory = readValidCategory("Enter a category for the note: ")
@@ -124,7 +126,7 @@ fun addNote(){
 
 //update note
 fun updateNote() {
-    //logger.info { "updateNotes() function invoked" }
+    logger.info { "You are updating a note ✏️" }
     listAllNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note if notes exist
@@ -151,7 +153,7 @@ fun updateNote() {
 
 //delete note
 fun deleteNote(){
-//    logger.info { "deleteNote() function invoked" }
+    logger.info { "You are deleting a note 🗑" }
     listNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note to delete if notes exist
@@ -168,6 +170,7 @@ fun deleteNote(){
 
 //list notes submenu
 fun listNotes(){
+    logger.info { "Listing notes 🔢" }
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(
             """
@@ -197,26 +200,31 @@ fun listNotes(){
 
 //list all notes
 fun listAllNotes() {
+    logger.info { "Listing all notes 📒" }
     println(noteAPI.listAllNotes())
 }
 
 //list active notes
 fun listActiveNotes() {
+    logger.info { "Listing active notes 🏋️‍️" }
     println(noteAPI.listActiveNotes())
 }
 
 //list archived notes
 fun listArchivedNotes() {
+    logger.info { "Listing archived notes 🏛"}
     println(noteAPI.listArchivedNotes())
 }
 
 //list notes marked as to-do
 fun groupByProgressTodo() {
+    logger.info{ "Listing to-do's 🤔"}
     println(noteAPI.listNotesByProgress())
 }
 
 //list notes by priority
 fun listNotesBySelectedPriority(){
+    logger.info{ "Listing by selected priority 🎯"}
     val priorityValue = readValidPriority("Enter priority level (1-5) to search by: ")
     val searchResults = noteAPI.listNotesBySelectedPriority(priorityValue)
     if(searchResults.isEmpty()){
@@ -228,6 +236,7 @@ fun listNotesBySelectedPriority(){
 
 //list notes by due date
 fun listNotesByDueDate(){
+    logger.info{ "Listing by due date 📆"}
     val dueDate = readValidDueDate("Enter due date (day, week, month, year) to search by: ")
     val searchResults = noteAPI.listNotesByDueDate(dueDate)
     if(searchResults.isEmpty()){
@@ -239,12 +248,14 @@ fun listNotesByDueDate(){
 
 //exit app
 fun exitApp(){
+    logger.info{ "Bye bye, come back soon 👋"}
     logger.info { "exitApp() function invoked" }
     exit(0)
 }
 
 // save notes
 fun save() {
+    logger.info { "saving notes ⤵️"}
     try {
         noteAPI.store()
     } catch (e: Exception) {
@@ -254,6 +265,7 @@ fun save() {
 
 //load notes
 fun load() {
+    logger.info {"loading notes ↗️"}
     try {
         noteAPI.load()
     } catch (e: Exception) {
@@ -263,6 +275,7 @@ fun load() {
 
 //archive a note
 fun archiveNote() {
+    logger.info {"archive notes 🗂"}
     listAllNotes()
     if (noteAPI.numberOfActiveNotes() > 0) {
         //only ask the user to choose the note to archive if active notes exist
@@ -278,6 +291,7 @@ fun archiveNote() {
 
 //search notes submenu
 fun searchNotes(){
+    logger.info{"Search for notes 🔎"}
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(
             """
@@ -303,6 +317,7 @@ fun searchNotes(){
 
 //search notes by their description
 fun searchNotesByDesc(){
+    logger.info{"search by title 🔎"}
     val searchTitle = readNextLine("Enter description to search by: ")
     val searchResults = noteAPI.searchByTitle(searchTitle)
     if(searchResults.isEmpty()){
@@ -314,6 +329,7 @@ fun searchNotesByDesc(){
 
 //search notes by progress
 fun searchNotesByProgress(){
+    logger.info{"search by progress ✅"}
     val searchProgress = readNextLine("Enter progress to search by (to-do, doing, done): ")
     val searchResults = noteAPI.searchByProgress(searchProgress)
     if(searchResults.isEmpty()){
@@ -325,6 +341,7 @@ fun searchNotesByProgress(){
 
 //search notes by collaborator
 fun searchNotesByCollaborator(){
+    logger.info{"search by collaborator 👥"}
     val searchCollaborator = readNextLine("Enter collaborator to search by: ")
     val searchResults = noteAPI.searchByCollaborator(searchCollaborator)
     if(searchResults.isEmpty()){
@@ -336,6 +353,7 @@ fun searchNotesByCollaborator(){
 
 // search notes by first letter of collaborator's name
 fun searchNotesByCollabLetter(){
+    logger.info{"search by collaborator, first letter 👥"}
     val searchCollaborator = readNextLine("Enter collaborator to search by: ")
     val searchResults = noteAPI.searchByCollaboratorFirstL(searchCollaborator)
     if(searchResults.isEmpty()){
@@ -347,6 +365,7 @@ fun searchNotesByCollabLetter(){
 
 //count notes
 fun countNotes(){
+    logger.info{"counting employees menu 🔢"}
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(
             """
@@ -378,26 +397,31 @@ fun countNotes(){
 
 //count all notes
 fun countAllNotes() {
+    logger.info{"Count all notes 📒"}
     println(noteAPI.numberOfNotes())
 }
 
 //count active notes
 fun countActiveNotes() {
+    logger.info{"count active notes 🏋️‍️"}
     println(noteAPI.numberOfActiveNotes())
 }
 
 //count archived notes
 fun countArchivedNotes() {
+    logger.info{"count archived notes 🏛"}
     println(noteAPI.numberOfArchivedNotes())
 }
 
 //count notes in household category
 fun countHouseholdNotesCategory() {
+    logger.info{"count notes in household category 🏠"}
     println(noteAPI.numberOfNotesHouseholdCat())
 }
 
 //count notes by priority
 fun countNotesBySelectedPriority(){
+    logger.info{"count notes by selected priority 🎯"}
     val priorityValue = readValidPriority("Enter priority level (1-5) to search by: ")
     val searchResults = noteAPI.numberOfNotesByPriority(priorityValue)
     println(searchResults)
@@ -405,6 +429,7 @@ fun countNotesBySelectedPriority(){
 
 //count notes by category
 fun countNotesByCategory(){
+    logger.info{"count notes by selected category 📂"}
     val category = readValidCategory("Enter category to search by: ")
     val searchResults = noteAPI.numberOfNotesByCategory(category)
     println(searchResults)
@@ -412,6 +437,7 @@ fun countNotesByCategory(){
 
 //count notes by progress
 fun countNotesByProgress() {
+    logger.info{"count notes by progress ✅"}
     val progress = readValidProgress("Enter progress level to search by: ")
     val searchResults = noteAPI.numberOfNotesByProgress(progress)
     println(searchResults)
