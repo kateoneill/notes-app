@@ -105,6 +105,7 @@ fun runMenu() {
     }while (true)
 }
 
+//add note
 fun addNote(){
     val noteTitle = readNextLine("Enter a title for the note: ")
     val notePriority = readValidPriority("Enter a priority (1-low, 2, 3, 4, 5-high): ")
@@ -121,6 +122,7 @@ fun addNote(){
     }
 }
 
+//update note
 fun updateNote() {
     //logger.info { "updateNotes() function invoked" }
     listAllNotes()
@@ -147,6 +149,24 @@ fun updateNote() {
     }
 }
 
+//delete note
+fun deleteNote(){
+//    logger.info { "deleteNote() function invoked" }
+    listNotes()
+    if (noteAPI.numberOfNotes() > 0) {
+        //only ask the user to choose the note to delete if notes exist
+        val indexToDelete = readNextInt("Enter the index of the note to delete: ")
+        //pass the index of the note to NoteAPI for deleting and check for success.
+        val noteToDelete = noteAPI.deleteNote(indexToDelete)
+        if (noteToDelete != null) {
+            println("Delete Successful! Deleted note: ${noteToDelete.noteTitle}")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
+}
+
+//list notes submenu
 fun listNotes(){
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(
@@ -175,6 +195,157 @@ fun listNotes(){
     }
 }
 
+//list all notes
+fun listAllNotes() {
+    println(noteAPI.listAllNotes())
+}
+
+//list active notes
+fun listActiveNotes() {
+    println(noteAPI.listActiveNotes())
+}
+
+//list archived notes
+fun listArchivedNotes() {
+    println(noteAPI.listArchivedNotes())
+}
+
+//list notes marked as to-do
+fun groupByProgressTodo() {
+    println(noteAPI.listNotesByProgress())
+}
+
+//list notes by priority
+fun listNotesBySelectedPriority(){
+    val priorityValue = readValidPriority("Enter priority level (1-5) to search by: ")
+    val searchResults = noteAPI.listNotesBySelectedPriority(priorityValue)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+//list notes by due date
+fun listNotesByDueDate(){
+    val dueDate = readValidDueDate("Enter due date (day, week, month, year) to search by: ")
+    val searchResults = noteAPI.listNotesByDueDate(dueDate)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+//exit app
+fun exitApp(){
+    logger.info { "exitApp() function invoked" }
+    exit(0)
+}
+
+// save notes
+fun save() {
+    try {
+        noteAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+//load notes
+fun load() {
+    try {
+        noteAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
+}
+
+//archive a note
+fun archiveNote() {
+    listAllNotes()
+    if (noteAPI.numberOfActiveNotes() > 0) {
+        //only ask the user to choose the note to archive if active notes exist
+        val indexToArchive = readNextInt("Enter the index of the note to archive: ")
+        //pass the index of the note to NoteAPI for archiving and check for success.
+        if (noteAPI.archiveNote(indexToArchive)) {
+            println("Archive Successful!")
+        } else {
+            println("Archive NOT Successful")
+        }
+    }
+}
+
+//search notes submenu
+fun searchNotes(){
+    if (noteAPI.numberOfNotes() > 0) {
+        val option = readNextInt(
+            """
+                  > -------------------------------------------------
+                  > |   1) Search notes by description               |
+                  > |   2) Search notes by progress                  |
+                  > |   3) Search notes by collaborator              |
+                  > |   4) Search notes by collaborator first letter |
+                  > -------------------------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> searchNotesByDesc();
+            2 -> searchNotesByProgress();
+            3 -> searchNotesByCollaborator();
+            4 -> searchNotesByCollabLetter();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - There are no notes");
+    }
+}
+
+//search notes by their description
+fun searchNotesByDesc(){
+    val searchTitle = readNextLine("Enter description to search by: ")
+    val searchResults = noteAPI.searchByTitle(searchTitle)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+//search notes by progress
+fun searchNotesByProgress(){
+    val searchProgress = readNextLine("Enter progress to search by (to-do, doing, done): ")
+    val searchResults = noteAPI.searchByProgress(searchProgress)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+//search notes by collaborator
+fun searchNotesByCollaborator(){
+    val searchCollaborator = readNextLine("Enter collaborator to search by: ")
+    val searchResults = noteAPI.searchByCollaborator(searchCollaborator)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+// search notes by first letter of collaborator's name
+fun searchNotesByCollabLetter(){
+    val searchCollaborator = readNextLine("Enter collaborator to search by: ")
+    val searchResults = noteAPI.searchByCollaboratorFirstL(searchCollaborator)
+    if(searchResults.isEmpty()){
+        println("No Notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+//count notes
 fun countNotes(){
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(
@@ -205,184 +376,41 @@ fun countNotes(){
     }
 }
 
-fun listAllNotes() {
-    println(noteAPI.listAllNotes())
-}
-
-fun listActiveNotes() {
-    println(noteAPI.listActiveNotes())
-}
-
-fun listArchivedNotes() {
-    println(noteAPI.listArchivedNotes())
-}
-
-fun groupByProgressTodo() {
-    println(noteAPI.listNotesByProgress())
-}
-fun deleteNote(){
-//    logger.info { "deleteNote() function invoked" }
-    listNotes()
-    if (noteAPI.numberOfNotes() > 0) {
-        //only ask the user to choose the note to delete if notes exist
-        val indexToDelete = readNextInt("Enter the index of the note to delete: ")
-        //pass the index of the note to NoteAPI for deleting and check for success.
-        val noteToDelete = noteAPI.deleteNote(indexToDelete)
-        if (noteToDelete != null) {
-            println("Delete Successful! Deleted note: ${noteToDelete.noteTitle}")
-        } else {
-            println("Delete NOT Successful")
-        }
-    }
-}
-
-fun exitApp(){
-    logger.info { "exitApp() function invoked" }
-    exit(0)
-}
-
-fun save() {
-    try {
-        noteAPI.store()
-    } catch (e: Exception) {
-        System.err.println("Error writing to file: $e")
-    }
-}
-
-fun load() {
-    try {
-        noteAPI.load()
-    } catch (e: Exception) {
-        System.err.println("Error reading from file: $e")
-    }
-}
-
-fun archiveNote() {
-    listAllNotes()
-    if (noteAPI.numberOfActiveNotes() > 0) {
-        //only ask the user to choose the note to archive if active notes exist
-        val indexToArchive = readNextInt("Enter the index of the note to archive: ")
-        //pass the index of the note to NoteAPI for archiving and check for success.
-        if (noteAPI.archiveNote(indexToArchive)) {
-            println("Archive Successful!")
-        } else {
-            println("Archive NOT Successful")
-        }
-    }
-}
-
-fun searchNotes(){
-    if (noteAPI.numberOfNotes() > 0) {
-        val option = readNextInt(
-            """
-                  > -------------------------------------------------
-                  > |   1) Search notes by description               |
-                  > |   2) Search notes by progress                  |
-                  > |   3) Search notes by collaborator              |
-                  > |   4) Search notes by collaborator first letter |
-                  > -------------------------------------------------
-         > ==>> """.trimMargin(">"))
-
-        when (option) {
-            1 -> searchNotesByDesc();
-            2 -> searchNotesByProgress();
-            3 -> searchNotesByCollaborator();
-            4 -> searchNotesByCollabLetter();
-            else -> println("Invalid option entered: " + option);
-        }
-    } else {
-        println("Option Invalid - There are no notes");
-    }
-}
-
-fun searchNotesByDesc(){
-    val searchTitle = readNextLine("Enter description to search by: ")
-    val searchResults = noteAPI.searchByTitle(searchTitle)
-    if(searchResults.isEmpty()){
-        println("No Notes found")
-    } else {
-        println(searchResults)
-    }
-}
-
-fun searchNotesByProgress(){
-    val searchProgress = readNextLine("Enter progress to search by (to-do, doing, done): ")
-    val searchResults = noteAPI.searchByProgress(searchProgress)
-    if(searchResults.isEmpty()){
-        println("No Notes found")
-    } else {
-        println(searchResults)
-    }
-}
-
-fun searchNotesByCollaborator(){
-    val searchCollaborator = readNextLine("Enter collaborator to search by: ")
-    val searchResults = noteAPI.searchByCollaborator(searchCollaborator)
-    if(searchResults.isEmpty()){
-        println("No Notes found")
-    } else {
-        println(searchResults)
-    }
-}
-
-fun searchNotesByCollabLetter(){
-    val searchCollaborator = readNextLine("Enter collaborator to search by: ")
-    val searchResults = noteAPI.searchByCollaboratorFirstL(searchCollaborator)
-    if(searchResults.isEmpty()){
-        println("No Notes found")
-    } else {
-        println(searchResults)
-    }
-}
-
-fun listNotesBySelectedPriority(){
-    val priorityValue = readValidPriority("Enter priority level (1-5) to search by: ")
-    val searchResults = noteAPI.listNotesBySelectedPriority(priorityValue)
-    if(searchResults.isEmpty()){
-        println("No Notes found")
-    } else {
-        println(searchResults)
-    }
-}
-
-fun listNotesByDueDate(){
-    val dueDate = readValidDueDate("Enter due date (day, week, month, year) to search by: ")
-    val searchResults = noteAPI.listNotesByDueDate(dueDate)
-    if(searchResults.isEmpty()){
-        println("No Notes found")
-    } else {
-        println(searchResults)
-    }
-}
-
+//count all notes
 fun countAllNotes() {
     println(noteAPI.numberOfNotes())
 }
 
+//count active notes
 fun countActiveNotes() {
     println(noteAPI.numberOfActiveNotes())
 }
 
+//count archived notes
 fun countArchivedNotes() {
     println(noteAPI.numberOfArchivedNotes())
 }
 
+//count notes in household category
 fun countHouseholdNotesCategory() {
     println(noteAPI.numberOfNotesHouseholdCat())
 }
 
+//count notes by priority
 fun countNotesBySelectedPriority(){
     val priorityValue = readValidPriority("Enter priority level (1-5) to search by: ")
     val searchResults = noteAPI.numberOfNotesByPriority(priorityValue)
     println(searchResults)
 }
 
+//count notes by category
 fun countNotesByCategory(){
     val category = readValidCategory("Enter category to search by: ")
     val searchResults = noteAPI.numberOfNotesByCategory(category)
     println(searchResults)
 }
 
+//count notes by progress
 fun countNotesByProgress() {
     val progress = readValidProgress("Enter progress level to search by: ")
     val searchResults = noteAPI.numberOfNotesByProgress(progress)
